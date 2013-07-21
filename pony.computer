@@ -35,7 +35,7 @@ valuec='01;34'
 
 source "/etc/os-release"
 
-ponyinfo=$(ponysay -i $pony)
+ponyinfo="$(ponysay -i $pony)"
 
 left=$(( $(grep WIDTH <<< "$ponyinfo" | head -n 1 | cut -d : -f 2) + $padding ))
 height=$(( $(grep HEIGHT <<< "$ponyinfo" | head -n 1 | cut -d : -f 2) ))
@@ -69,17 +69,17 @@ done
 echo -e "\e[${left}C\e[${keyc}mCurrent CPU speed:\e[00;${valuec}m $(python <<< "print($(echo $(cat /proc/cpuinfo | grep '^cpu MHz' | cut -d : -f 2 | sed -e 's:$: +:g') 0))") MHz"
 echo -e "\e[${left}C\e[${keyc}mLoad average:\e[00;${valuec}m $(cat /proc/loadavg)"
 echo -e "\e[${left}C\e[${keyc}mUptime:\e[00;${valuec}m $(cat /proc/uptime)"
-echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^MemTotal:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mTotal swap:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^SwapTotal:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^HardwareCorrupted:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^KernelStack:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Slab:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Shmem:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Unevictable:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Mlocked:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Buffers:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m "$(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^MemTotal:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mTotal swap:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapTotal:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^HardwareCorrupted:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^KernelStack:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Slab:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Shmem:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Unevictable:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Mlocked:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Buffers:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
+echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
 echo -e "\e[${left}C\e[${keyc}mShell:\e[00;${valuec}m ${SHELL}"
 echo -e "\e[${left}C\e[${keyc}mShell version:\e[00;${valuec}m $("${SHELL}" --version | head -n 1)"
 echo -e "\e[${left}C\e[${keyc}mTeletypewriter:\e[00;${valuec}m $(tty)"
