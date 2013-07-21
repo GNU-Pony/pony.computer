@@ -62,7 +62,7 @@ echo -e "\e[${left}C\e[${keyc}mOperating system:\e[00;${valuec}m $(uname --opera
 echo -e "\e[${left}C\e[${keyc}mKernel:\e[00;${valuec}m $(uname --kernel-name) $(uname --kernel-release)"
 echo -e "\e[${left}C\e[${keyc}mKernel version:\e[00;${valuec}m $(uname --kernel-version)"
 echo -e "\e[${left}C\e[${keyc}mProcessor architecture:\e[00;${valuec}m $(uname --machine)"
-cat /proc/cpuinfo | grep '^model name' | uniq | cut -d : -f 2 | while read processor; do
+cat /proc/cpuinfo | grep '^model name' | sort | uniq | cut -d : -f 2 | while read processor; do
     echo -e "\e[${left}C\e[${keyc}mProcessor model:\e[00;${valuec}m ${processor}"
     (( lines++ ))
 done
