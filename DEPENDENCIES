@@ -1,6 +1,6 @@
 bash
 ponysay
 coreutils
-linux
+linux		(optional)
 grep
 sed

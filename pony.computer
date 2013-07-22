@@ -60,43 +60,55 @@ echo -en '\e[H\e[2J'
 ponysay -o $pony
 
 echo -en "\e[$(( ${top} + 1));1H"
-lines=29
 
-echo -e "\e[${left}C\e[${keyc}mUser:\e[00;${valuec}m ${USER}"
-echo -e "\e[${left}C\e[${keyc}mHome:\e[00;${valuec}m ${HOME}"
-echo -e "\e[${left}C\e[${keyc}mHostname:\e[00;${valuec}m ${HOSTNAME}"
-echo -e "\e[${left}C\e[${keyc}mDistribution:\e[00;${valuec}m ${PRETTY_NAME}"
-echo -e "\e[${left}C\e[${keyc}mOperating system:\e[00;${valuec}m $(uname --operating-system)"
-echo -e "\e[${left}C\e[${keyc}mKernel:\e[00;${valuec}m $(uname --kernel-name) $(uname --kernel-release)"
-echo -e "\e[${left}C\e[${keyc}mKernel version:\e[00;${valuec}m $(uname --kernel-version)"
-echo -e "\e[${left}C\e[${keyc}mProcessor architecture:\e[00;${valuec}m $(uname --machine)"
-cat /proc/cpuinfo | grep '^model name' | sort | uniq | cut -d : -f 2 | while read processor; do
-    echo -e "\e[${left}C\e[${keyc}mProcessor model:\e[00;${valuec}m ${processor}"
-    (( lines++ ))
-done
-echo -e "\e[${left}C\e[${keyc}mCurrent CPU speed:\e[00;${valuec}m $(python <<< "print($(echo $(cat /proc/cpuinfo | grep '^cpu MHz' | cut -d : -f 2 | sed -e 's:$: +:g') 0))") MHz"
-echo -e "\e[${left}C\e[${keyc}mLoad average:\e[00;${valuec}m $(cat /proc/loadavg)"
-echo -e "\e[${left}C\e[${keyc}mUptime:\e[00;${valuec}m $(cat /proc/uptime)"
-echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^MemTotal:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mTotal swap:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapTotal:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^HardwareCorrupted:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^KernelStack:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Slab:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Shmem:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Unevictable:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Mlocked:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Buffers:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
-echo -e "\e[${left}C\e[${keyc}mShell:\e[00;${valuec}m ${SHELL}"
-echo -e "\e[${left}C\e[${keyc}mShell version:\e[00;${valuec}m $("${SHELL}" --version | head -n 1)"
-echo -e "\e[${left}C\e[${keyc}mTeletypewriter:\e[00;${valuec}m $(tty)"
-echo -e "\e[${left}C\e[${keyc}mTerminal:\e[00;${valuec}m ${TERM} ${COLORTERM}"
-echo -e "\e[${left}C\e[${keyc}mX display:\e[00;${valuec}m ${DISPLAY}"
-# TODO how do we identify the window manager?
-echo -e "\e[${left}C\e[${keyc}mEditor:\e[00;${valuec}m ${EDITOR}"
-echo -e "\e[${left}C\e[${keyc}mLocale:\e[00;${valuec}m ${LOCALE}"
+function infofunc
+{
+    echo -e "\e[${left}C\e[${keyc}mUser:\e[00;${valuec}m ${USER}"
+    echo -e "\e[${left}C\e[${keyc}mHome:\e[00;${valuec}m ${HOME}"
+    echo -e "\e[${left}C\e[${keyc}mHostname:\e[00;${valuec}m ${HOSTNAME}"
+    echo -e "\e[${left}C\e[${keyc}mDistribution:\e[00;${valuec}m ${PRETTY_NAME}"
+    echo -e "\e[${left}C\e[${keyc}mOperating system:\e[00;${valuec}m $(uname --operating-system)"
+    echo -e "\e[${left}C\e[${keyc}mKernel:\e[00;${valuec}m $(uname --kernel-name) $(uname --kernel-release)"
+    echo -e "\e[${left}C\e[${keyc}mKernel version:\e[00;${valuec}m $(uname --kernel-version)"
+    echo -e "\e[${left}C\e[${keyc}mProcessor architecture:\e[00;${valuec}m $(uname --machine)"
+    if [ -e /proc/cpuinfo ] && [ ! -d /proc/cpuinfo ]; then
+	cat /proc/cpuinfo | grep '^model name' | sort | uniq | cut -d : -f 2 | while read processor; do
+	    echo -e "\e[${left}C\e[${keyc}mProcessor model:\e[00;${valuec}m ${processor}"
+	done
+	echo -e "\e[${left}C\e[${keyc}mCurrent CPU speed:\e[00;${valuec}m $(python <<< "print($(echo $(cat /proc/cpuinfo | grep '^cpu MHz' | cut -d : -f 2 | sed -e 's:$: +:g') 0))") MHz"
+    fi
+    if [ -e /proc/loadavg ] && [ ! -d /proc/loadavg ]; then
+	echo -e "\e[${left}C\e[${keyc}mLoad average:\e[00;${valuec}m $(cat /proc/loadavg)"
+    fi
+    if [ -e /proc/uptime ] && [ ! -d /proc/uptime ]; then
+	echo -e "\e[${left}C\e[${keyc}mUptime:\e[00;${valuec}m $(cat /proc/uptime)"
+    fi
+    if [ -e /proc/meminfo ] && [ ! -d /proc/meminfo ]; then
+	echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^MemTotal:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mTotal swap:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapTotal:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^HardwareCorrupted:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^KernelStack:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Slab:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Shmem:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Unevictable:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Mlocked:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Buffers:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
+	echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
+    fi
+    echo -e "\e[${left}C\e[${keyc}mShell:\e[00;${valuec}m ${SHELL}"
+    echo -e "\e[${left}C\e[${keyc}mShell version:\e[00;${valuec}m $("${SHELL}" --version | head -n 1)"
+    echo -e "\e[${left}C\e[${keyc}mTeletypewriter:\e[00;${valuec}m $(tty)"
+    echo -e "\e[${left}C\e[${keyc}mTerminal:\e[00;${valuec}m ${TERM} ${COLORTERM}"
+    echo -e "\e[${left}C\e[${keyc}mX display:\e[00;${valuec}m ${DISPLAY}"
+    # TODO how do we identify the window manager?
+    echo -e "\e[${left}C\e[${keyc}mEditor:\e[00;${valuec}m ${EDITOR}"
+    echo -e "\e[${left}C\e[${keyc}mLocale:\e[00;${valuec}m ${LOCALE}"
+}
 
+info="$(infofunc)"
+echo "$info"
+lines=$(wc -l <<< "$info")
 lines=$(( $height - $lines - $top - 1 ))
 
 if (( $lines > 0 )); then
