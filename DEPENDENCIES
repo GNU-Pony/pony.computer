@@ -1,5 +1,5 @@
 bash
-ponysay
+ponysay>=3.0
 coreutils
 linux		(optional)
 grep
