@@ -89,11 +89,9 @@ function infofunc
 	}
 	echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(mem MemTotal) + $(mem SwapTotal) 'swap'
 	echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(mem HardwareCorrupted)
-	echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(mem KernelStack)
-	echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(mem Slab)
+	echo -e "\e[${left}C\e[${keyc}mKernel memory:\e[00;${valuec}m" $(mem KernelStack) 'stack +' $(mem Slab) 'slab'
 	echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(mem Shmem)
-	echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(mem Unevictable)
-	echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(mem Mlocked)
+	echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(mem Mlocked), $(mem Unevictable) 'unevictable'
 	echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(mem Buffers)
 	echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(mem Cached) + $(mem SwapCached) 'swap'
     fi
