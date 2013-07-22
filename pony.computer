@@ -31,7 +31,15 @@ top=1
 keyc='01;35'
 valuec='01;34'
 
-### TODO load settings
+if [ -f "$XDG_CONFIG_HOME/pony.computerrc" ]; then
+    source "$XDG_CONFIG_HOME/pony.computerrc"
+elif [ -f "$HOME/.config/pony.computerrc" ]; then
+    source "$HOME/.config/pony.computerrc"
+elif [ -f "$HOME/.pony.computerrc" ]; then
+    source "$HOME/.pony.computerrc"
+elif [ -f "/etc/pony.computerrc" ]; then
+    source "/etc/pony.computerrc"
+fi
 
 source "/etc/os-release"
 
