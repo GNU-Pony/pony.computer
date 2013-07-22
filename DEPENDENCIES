@@ -4,3 +4,4 @@ coreutils
 linux		(optional)
 grep
 sed
+python
