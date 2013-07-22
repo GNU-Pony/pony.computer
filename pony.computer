@@ -84,16 +84,19 @@ function infofunc
 	echo -e "\e[${left}C\e[${keyc}mUptime:\e[00;${valuec}m $(cat /proc/uptime)"
     fi
     if [ -e /proc/meminfo ] && [ ! -d /proc/meminfo ]; then
-	echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^MemTotal:' | cut -d : -f 2) + $(cat /proc/meminfo | grep '^SwapTotal:' | cut -d : -f 2) swap
-	echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^HardwareCorrupted:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^KernelStack:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Slab:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Shmem:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Unevictable:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Mlocked:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Buffers:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
-	echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
+	function mem
+	{
+	    cat /proc/meminfo | grep "^$1:" | cut -d : -f 2
+	}
+	echo -e "\e[${left}C\e[${keyc}mTotal memory:\e[00;${valuec}m" $(mem MemTotal) + $(mem SwapTotal) 'swap'
+	echo -e "\e[${left}C\e[${keyc}mHardware corrupted memory:\e[00;${valuec}m" $(mem HardwareCorrupted)
+	echo -e "\e[${left}C\e[${keyc}mKernel stack memory:\e[00;${valuec}m" $(mem KernelStack)
+	echo -e "\e[${left}C\e[${keyc}mSlab memory:\e[00;${valuec}m" $(mem Slab)
+	echo -e "\e[${left}C\e[${keyc}mShared memory:\e[00;${valuec}m" $(mem Shmem)
+	echo -e "\e[${left}C\e[${keyc}mUnevictable memory:\e[00;${valuec}m" $(mem Unevictable)
+	echo -e "\e[${left}C\e[${keyc}mLocked memory:\e[00;${valuec}m" $(mem Mlocked)
+	echo -e "\e[${left}C\e[${keyc}mMemory buffers:\e[00;${valuec}m" $(mem Buffers)
+	echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(mem Cached) + $(mem SwapCached) 'swap'
     fi
     if [ -e /proc/net/route ] && [ ! -d /proc/net/route ]; then
 	python -c 'g=input(); print("%i.%i.%i.%i" % (int(g[6:8], 16), int(g[4:6], 16), int(g[2:4], 16), int(g[0:2], 16)))' <<< "$(cat /proc/net/route | cut -f 3 | grep -v 'Gateway' | grep -v 00000000)" |
