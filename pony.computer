@@ -96,6 +96,12 @@ function infofunc
 	echo -e "\e[${left}C\e[${keyc}mCached memory:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^Cached:' | cut -d : -f 2)
 	echo -e "\e[${left}C\e[${keyc}mSwapped cache:\e[00;${valuec}m" $(cat /proc/meminfo | grep '^SwapCached:' | cut -d : -f 2)
     fi
+    if [ -e /proc/net/route ] && [ ! -d /proc/net/route ]; then
+	python -c 'g=input(); print("%i.%i.%i.%i" % (int(g[6:8], 16), int(g[4:6], 16), int(g[2:4], 16), int(g[0:2], 16)))' <<< "$(cat /proc/net/route | cut -f 3 | grep -v 'Gateway' | grep -v 00000000)" |
+	while read line; do
+	    echo -e "\e[${left}C\e[${keyc}mDefault gateway:\e[00;${valuec}m ${line}"
+	done
+    fi
     echo -e "\e[${left}C\e[${keyc}mShell:\e[00;${valuec}m ${SHELL}"
     echo -e "\e[${left}C\e[${keyc}mShell version:\e[00;${valuec}m $("${SHELL}" --version | head -n 1)"
     echo -e "\e[${left}C\e[${keyc}mTeletypewriter:\e[00;${valuec}m $(tty)"
