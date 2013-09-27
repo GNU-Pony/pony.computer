@@ -7,7 +7,7 @@ PREFIX = /usr
 DATA = /share
 BIN = /bin
 PKGNAME = pony.computer
-SHABANG = /usr$(BIN)/env bash
+SHEBANG = /usr$(BIN)/env bash
 COMMAND = pony.computer
 LICENSES = $(PREFIX)$(DATA)
 
@@ -24,7 +24,7 @@ all: pony.computer #doc
 
 pony.computer: pony.computer.sh
 	cp "$<" "$@"
-	sed -i 's:#!/usr/bin/env bash:#!$(SHEBANG)":' "$@"
+	sed -i 's:#!/usr/bin/env bash:#!$(SHEBANG):' "$@"
 
 install: pony.computer #pony.computer.info.gz
 	install -dm755 "$(DESTDIR)$(PREFIX)$(BIN)"
