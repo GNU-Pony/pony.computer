@@ -59,6 +59,12 @@ echo -en '\e[H\e[2J'
 
 ponysay -o $pony
 
+if [ ! "${PONYSAY_KMS_PALETTE}" = "" ]; then
+    echo -en "${PONYSAY_KMS_PALETTE}"
+elif [ ! "${PONYSAY_KMS_PALETTE_CMD}" = "" ]; then
+    echo -en "$(${PONYSAY_KMS_PALETTE_CMD})"
+fi
+
 echo -en "\e[$(( ${top} + 1));1H"
 
 function infofunc
