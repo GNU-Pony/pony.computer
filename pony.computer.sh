@@ -31,14 +31,20 @@ top=1
 tagc='01;35'
 valuec='01;34'
 
-if [ -f "$XDG_CONFIG_HOME/pony.computerrc" ]; then
-    source "$XDG_CONFIG_HOME/pony.computerrc"
-elif [ -f "$HOME/.config/pony.computerrc" ]; then
-    source "$HOME/.config/pony.computerrc"
-elif [ -f "$HOME/.pony.computerrc" ]; then
-    source "$HOME/.pony.computerrc"
-elif [ -f "/etc/pony.computerrc" ]; then
-    source "/etc/pony.computerrc"
+if [ ! -z "$XDG_CONFIG_HOME" ] && [ -f "$XDG_CONFIG_HOME/pony.computer/pony.computerrc" ]; then
+    . "$XDG_CONFIG_HOME/pony.computer/pony.computerrc"
+elif [ ! -z "$HOME" ] && [ -f "$HOME/.config/pony.computer/pony.computerrc" ]; then
+    . "$HOME/.config/pony.computer/pony.computerrc"
+elif [ ! -z "$HOME" ] && [ -f "$HOME/.config/pony.computerrc" ]; then
+    . "$HOME/.config/pony.computerrc"
+elif [ ! -z "$HOME" ] && [ -f "$HOME/.config/.pony.computerrc" ]; then
+    . "$HOME/.config/.pony.computerrc"
+elif [ ! -z "$HOME" ] && [ -f "$HOME/.pony.computerrc" ]; then
+    . "$HOME/.pony.computerrc"
+elif [ -f ~/.pony.computerrc ]; then
+    . ~/.pony.computerrc
+elif [ -f /etc/pony.computerrc ]; then
+    . /etc/pony.computerrc
 fi
 
 source "/etc/os-release"
