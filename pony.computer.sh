@@ -120,7 +120,7 @@ function infofunc
     echo -e "\e[${left}C\e[${tagc}mX display:\e[00;${valuec}m ${DISPLAY}"
     # TODO how do we identify the window manager?
     echo -e "\e[${left}C\e[${tagc}mEditor:\e[00;${valuec}m ${EDITOR}"
-    echo -e "\e[${left}C\e[${tagc}mLocale:\e[00;${valuec}m ${LOCALE}"
+    echo -e "\e[${left}C\e[${tagc}mLocale:\e[00;${valuec}m ${LANG}"
 }
 
 info="$(infofunc)"
