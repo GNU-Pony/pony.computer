@@ -123,7 +123,7 @@ function infofunc
     echo -e "\e[${left}C\e[${tagc}mTeletypewriter:\e[00;${valuec}m $(tty)"
     echo -e "\e[${left}C\e[${tagc}mTerminal:\e[00;${valuec}m ${TERM} ${COLORTERM}"
     echo -e "\e[${left}C\e[${tagc}mX display:\e[00;${valuec}m ${DISPLAY}"
-    # TODO how do we identify the window manager?
+    echo -e "\e[${left}C\e[${tagc}mWindow manager:\e[00;${valuec}m ${DESKTOP_SESSION}"
     echo -e "\e[${left}C\e[${tagc}mEditor:\e[00;${valuec}m ${EDITOR}"
     echo -e "\e[${left}C\e[${tagc}mLocale:\e[00;${valuec}m ${LANG}"
 }
