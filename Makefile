@@ -16,30 +16,29 @@ all: pony.computer #doc
 
 #doc: info
 
-#info: pony.computer.info.gz
+#info: pony.computer.info
 
-#%.info.gz: info/%.texinfo
+#%.info: info/%.texinfo
 #	makeinfo "$<"
-#	gzip -9 -f "$*.info"
 
 pony.computer: pony.computer.sh
 	cp "$<" "$@"
 	sed -i 's:#!/usr/bin/env bash:#!$(SHEBANG):' "$@"
 
-install: pony.computer #pony.computer.info.gz
+install: pony.computer #pony.computer.info
 	install -dm755 "$(DESTDIR)$(PREFIX)$(BIN)"
 	install -m755 pony.computer "$(DESTDIR)$(PREFIX)$(BIN)"
 	install -dm755 "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
 	install -m644 COPYING LICENSE "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
 #	install -dm755 "$(DESTDIR)$(PREFIX)$(DATA)/info"
-#	install -m644 pony.computer.info.gz "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info.gz"
+#	install -m644 pony.computer.info "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info"
 
 uninstall:
 	rm -- "$(DESTDIR)$(PREFIX)$(BIN)/$(COMMAND)"
 	rm -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)/COPYING"
 	rm -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)/LICENSE"
 	rmdir -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
-#	rm -- "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info.gz"
+#	rm -- "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info"
 
 .PHONY: clean
 clean:
