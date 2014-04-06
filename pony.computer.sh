@@ -49,6 +49,9 @@ fi
 
 if [ -f "/etc/os-release" ]; then
     . "/etc/os-release"
+elif [ -f "/etc/lsb-release" ]; then
+    . "/etc/lsb-release"
+    PRETTY_NAME="${DISTRIB_DESCRIPTION}"
 fi
 
 ponyinfo="$(ponysay -i $pony)"

@@ -6,3 +6,5 @@ grep
 sed
 python
 filesystem	(optional: for identification of distribution)
+lsb_release	(optional: for identification of distribution)
+
