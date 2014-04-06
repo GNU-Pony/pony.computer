@@ -1,7 +1,16 @@
 _/
+
+obj/
+
 \#*\#
 .*
 !.git*
 *~
 *.bak
 *.sw[op]
+
+*.info
+*.pdf
+*.ps
+*.dvi
+
