@@ -47,7 +47,9 @@ elif [ -f /etc/pony.computerrc ]; then
     . /etc/pony.computerrc
 fi
 
-source "/etc/os-release"
+if [ -f "/etc/os-release" ]; then
+    . "/etc/os-release"
+fi
 
 ponyinfo="$(ponysay -i $pony)"
 

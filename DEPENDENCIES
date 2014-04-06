@@ -1,8 +1,8 @@
 bash
 ponysay>=3.0
 coreutils
-linux		(optional)
+linux		(optional: for system information from procfs)
 grep
 sed
 python
-filesystem
+filesystem	(optional: for identification of distribution)
