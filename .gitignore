@@ -9,6 +9,7 @@ obj/
 *.bak
 *.sw[op]
 
+/pony.computer
 *.info
 *.pdf
 *.ps

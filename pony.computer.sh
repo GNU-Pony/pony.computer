@@ -54,6 +54,10 @@ elif [ -f "/etc/lsb-release" ]; then
     PRETTY_NAME="${DISTRIB_DESCRIPTION}"
 fi
 
+if [ -z "${PRETTY_NAME}" ]; then
+    PRETTY_NAME=''
+fi
+
 ponyinfo="$(ponysay -i $pony)"
 
 left=$(( $(grep WIDTH <<< "$ponyinfo" | head -n 1 | cut -d : -f 2) + $padding ))

@@ -27,6 +27,11 @@ COMMAND = pony.computer
 # The name of the package as it should be installed
 PKGNAME = pony.computer
 
+# Specify operating system distribution here,
+# replace any ' with '\'' and otherwise make sure
+# it does not cause syntax error when resolved
+DISTRO = 
+
 
 
 # Build rules
@@ -69,6 +74,7 @@ all: pony.computer # doc
 pony.computer: pony.computer.sh
 	cp "$<" "$@"
 	sed -i 's:#!/usr/bin/env bash:#!$(SHEBANG):' "$@"
+	sed -i "s#^    PRETTY_NAME=''"'$$'"#    PRETTY_NAME='$(DISTRO)'#" "$@"
 
 
 # Install rules
