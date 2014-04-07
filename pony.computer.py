@@ -300,6 +300,7 @@ XDG_CONFIG_DIRS = env('XDG_CONFIG_DIRS', '')
 ## List possible configuration script files.
 # From $HOME/.config and $HOME:
 conffiles = [(XDG_CONFIG_HOME, '%s/pony.computer/pony.computerrc'),
+             (XDG_CONFIG_HOME, '%s/pony.computerrc'),
              (HOME, '%s/.config/pony.computer/pony.computerrc'),
              (HOME, '%s/.config/pony.computerrc'),
              (HOME, '%s/.config/.pony.computerrc'),
@@ -310,7 +311,7 @@ try:
     # Get home directory for the real user.
     home = pwd.getpwuid(os.getuid()).pw_dir
     # As the listing above except with actual home.
-    conffiles += [(home, pathpattern) for _, pathpattern in conffiles[1:]]
+    conffiles += [(home, pathpattern) for _, pathpattern in conffiles[2:]]
 except:
     # What, you are not even running a Unix-like system‽
     # Or do you not exist...?
