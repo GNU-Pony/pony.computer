@@ -20,16 +20,16 @@ INFODIR ?= $(DATADIR)/info
 # The license base path including prefix
 LICENSEDIR ?= $(DATADIR)/licenses
 
-# Bash command to use in shebangs
-SHEBANG = $(BIN)/bash
+# Python 3 command to use in shebangs
+SHEBANG = /usr$(BIN)/env python3
 # The name of the command as it should be installed
 COMMAND = pony.computer
 # The name of the package as it should be installed
 PKGNAME = pony.computer
 
 # Specify operating system distribution here,
-# replace any ' with '\'' and otherwise make sure
-# it does not cause syntax error when resolved
+# make sure it does not cause syntax error when
+# resolved.
 DISTRO = 
 
 
@@ -71,10 +71,10 @@ all: pony.computer # doc
 #	cd obj && yes X | texi2pdf --ps "../$<"
 #	mv "obj/$@" "$@"
 
-pony.computer: pony.computer.sh
+pony.computer: pony.computer.py
 	cp "$<" "$@"
-	sed -i 's:#!/usr/bin/env bash:#!$(SHEBANG):' "$@"
-	sed -i "s#^    PRETTY_NAME=''"'$$'"#    PRETTY_NAME='$(DISTRO)'#" "$@"
+	sed -i 's:#!/usr/bin/env python3:#!$(SHEBANG):' "$@"
+	sed -i "s#^distro = ''"'$$'"#distro = '$(DISTRO)'#" "$@"
 
 
 # Install rules
