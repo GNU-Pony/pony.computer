@@ -53,6 +53,7 @@ Texts. A copy of the license is included in the section entitled
 @menu
 * Overview::                        Brief overview of @command{pony.computer}.
 * Invoking::                        Invocation of @command{pony.computer}.
+* Configuring::                     Configuring @command{pony.computer}.
 * GNU Free Documentation License::  Copying and sharing this manual.
 @end menu
 
@@ -84,6 +85,139 @@ Otherwise @command{ponysay} will be invoked
 without them, and @command{pony.computer}
 will not be able to reset the palette
 when it is done.
+
+
+
+@node Configuring
+@chapter Configuring
+
+@command{pony.computer} can be configured
+using a Python 3 script. The program will
+run the script as if it was a part of its
+own source code. The file should be named
+@file{$XDG_CONFIG_HOME/pony.computer/pony.computerrc},
+or alternatively
+@file{$XDG_CONFIG_HOME/pony.computerrc}.
+@file{$XDG_CONFIG_HOME} falls back to
+@file{$HOME/.config}. There are also a
+few fallbacks:
+
+@itemize @bullet{}
+@item @file{$HOME/.config/.pony.computerrc}
+@item @file{$HOME/.pony.computerrc}
+@item @file{$XDG_CONFIG_DIRS/pony.computerrc}
+@item @file{/etc/pony.computerrc}
+@end itemize
+
+@var{XDG_CONFIG_DIRS} is a colon-separated
+list of paths for system-wide configurations.
+
+To make configurations you can replace
+and variable or function simply by redefining
+them. The variables used by @command{pony.computer}
+are:
+
+@table @code
+@item distro
+The name of the operating system distribution name.
+If it cannot be resolved from @file{/etc/os-release}
+or @file{/etc/lsb-release}, a value specified by
+at build time by the packager will be used.
+
+@item ponies
+List of options to choose from that should be
+passed to @command{ponysay} to print a pony.
+If an element in this list is a string, rather
+than list or tuple, it is split at whitespace
+with empty elements removed.
+
+The @option{-o} flag is included implicitly.
+
+@item padding
+The number of columns between the right side of
+the pony and the left side of the text.
+
+@item top
+The number of empty lines above the text.
+
+@item tagc
+The colour of the tag names in the text.
+
+@item valuec
+The colour of the tag values in the text.
+
+@item name
+The real user's real home directory.
+
+@end table
+
+The colours specified by @code{tagc}
+and @code{valuec} are ANSI escape sequence
+colour values. For example, @code{01;34}
+is bold (@code{01}) and blue (@code{34}).
+
+You can also replace the function
+@code{infofunc}. It takes no arguments
+and does not return anything. It prints
+the system information to a temporary
+stdout.
+
+There are also a set of help function
+that you can use or replace:
+
+@table @code
+@item env(variable, default = '')
+Get an environment variable, and use a
+fallback value if not defined. It is
+considered to be defined if it is an
+empty string.
+
+@item spawn(*command)
+Spawn an external process and wait
+for it to exit.
+
+@item spawn_pipe(*command)
+Spawn an external process and wait
+for it to exit and then return its
+output to stdout. If the output
+ends with a new line, that symbol
+with by removed.
+
+@item print(text = '', end = '\n', flush = True)
+Print a text to stdout.
+
+@item printerr(text = '', end = '\n', flush = True)
+Print a text to stderr.
+
+@item printtag(name, value, flush = False)
+Print a formated key–value pair.
+
+@item try_(*functions):
+Try to run each specified function,
+without any argumetns, until one of
+them is successful. The returned value
+of the first successful function will
+be returned. If none of the functions
+were succesful, an empty string will
+be returned.
+
+@item cat(pathname)
+Return the content of a file with
+all trailing line breaks removed.
+
+@item unique(items)
+Remove duplicate items from a
+sorted list of items.
+
+@item strdur(seconds)
+Return a human readable
+representation of a duration.
+The duration is specified as
+a number (can be fractional)
+seconds, optionally as a
+string.
+
+@end table
 
 
 
