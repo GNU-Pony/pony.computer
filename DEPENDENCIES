@@ -2,7 +2,7 @@ python3
 ponysay>=3.0
 coreutils
 sh
-linux		(optional: for system information from procfs)
-filesystem	(optional: for identification of distribution)
-lsb-release	(optional: for identification of distribution)
+linux			(optional: for system information from procfs)
+system-configurations	(optional: for identification of distribution)
+lsb-release		(optional: for identification of distribution)
 
