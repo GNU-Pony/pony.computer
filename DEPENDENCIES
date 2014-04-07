@@ -1,10 +1,7 @@
-bash
+python3
 ponysay>=3.0
 coreutils
 linux		(optional: for system information from procfs)
-grep
-sed
-python
 filesystem	(optional: for identification of distribution)
 lsb_release	(optional: for identification of distribution)
 
