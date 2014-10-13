@@ -112,6 +112,9 @@ few fallbacks:
 @var{XDG_CONFIG_DIRS} is a colon-separated
 list of paths for system-wide configurations.
 
+See @file{/usr/share/doc/pony.computer/example}
+for an example.
+
 To make configurations you can replace
 and variable or function simply by redefining
 them. The variables used by @command{pony.computer}
@@ -146,7 +149,7 @@ The colour of the tag names in the text.
 @item valuec
 The colour of the tag values in the text.
 
-@item name
+@item home
 The real user's real home directory.
 
 @end table

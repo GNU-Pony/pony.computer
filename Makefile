@@ -80,7 +80,7 @@ pony.computer: pony.computer.py
 # Install rules
 
 .PHONY: install
-install: install-base install-info
+install: install-base install-info install-examples
 
 .PHONY: install-all
 install-all: install-base install-doc
@@ -99,7 +99,7 @@ install-license:
 	install -m644 COPYING LICENSE -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
 
 .PHONY: install-doc
-install-doc: install-info install-pdf install-ps install-dvi
+install-doc: install-info install-pdf install-ps install-dvi install-examples
 
 .PHONY: install-info
 install-info: pony.computer.info
@@ -108,31 +108,38 @@ install-info: pony.computer.info
 
 .PHONY: install-pdf
 install-pdf: pony.computer.pdf
-	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
-	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).pdf"
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)"
+	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).pdf"
 
 .PHONY: install-ps
 install-ps: pony.computer.ps
-	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
-	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).ps"
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)"
+	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).ps"
 
 .PHONY: install-dvi
 install-dvi: pony.computer.dvi
-	install -dm755 -- "$(DESTDIR)$(DOCDIR)"
-	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).dvi"
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)"
+	install -m644 "$<" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).dvi"
+
+.PHONY: install-examples
+install-examples:
+	install -dm755 -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)"
+	install -m644 "example" -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/example"
 
 
 # Uninstall rules
 
 uninstall:
-	rm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
-	rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
-	rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
-	rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
-	rm -- "$(DESTDIR)$(INFODIR)/$(PKGNAME).info"
-	rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).pdf"
-	rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).ps"
-	rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME).dvi"
+	-rm -- "$(DESTDIR)$(BINDIR)/$(COMMAND)"
+	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/COPYING"
+	-rm -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)/LICENSE"
+	-rmdir -- "$(DESTDIR)$(LICENSEDIR)/$(PKGNAME)"
+	-rm -- "$(DESTDIR)$(INFODIR)/$(PKGNAME).info"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).pdf"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).ps"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/$(PKGNAME).dvi"
+	-rm -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)/example"
+	-rmdir -- "$(DESTDIR)$(DOCDIR)/$(PKGNAME)"
 
 
 # Clean rules

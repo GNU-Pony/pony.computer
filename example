@@ -1,0 +1,81 @@
+# -*- python -*-
+# This line as not neccessary, but it is nice if you are
+# using for example GNU Emacs because it tells the text
+# editor that the file is a Python-file.
+
+
+ponies = ['-f twilight'] # (this line will override in a moment)
+# This tells pony.computer to run `ponysay -o -f twilight`
+# to get the pony image to use. An alterntive that is to
+# write `[('-f', 'twilight')]`.
+
+ponies = ['-f twilight', '-f pinkie'] # (overrides the previous line)
+# This tells pony.computer to randomly select between
+# `ponysay -o -f twilight` and `ponysay -o -f pinkie`
+# to get the pony image to use.
+
+
+
+tagc, valuec = '01;35', '01;31'
+# This selects bold magenta for the colour of tags and
+# bold red or values. For example "User:" will be printed
+# in bold magenta and your username will be printed in
+# bold red. The colour is apply by printing "\e[%sm", where
+# "%s" is replace by the value stored in one of these
+# variables and "\e" represents the ESC-character.
+# You can read more about this at
+# https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+# and under "SGR (Select Graphic Rendition) parameters"
+# at https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes.
+
+
+distro = 'Magically pony-distro'
+# This tells pony.computer that your distribution
+# is called "Magically pony-distro". This can be used
+# if pony.computer cannot figure out what distribution
+# you are using.
+
+
+top = 0
+# By default, pony.computer will print one empty line
+# above the text. This changes it to zero empty lines.
+# This does not affect where the pony is printed.
+
+
+padding = 2
+# By default, pony.computer will put 8 columns between
+# the pony and the text. This change it 2 columns.
+
+
+home='~'
+# This is perhaps less useful. This forces pony.computer
+# to say that your home directory is ~.
+
+
+old_printtag = printtag
+tagc_, valuec_ = tagc, valuec
+bold = True
+def printtag(name, value, flush = False):
+    global tagc, valuec, bold
+    if not bold:
+        tagc, valuec = tagc + ';21', valuec + ';21'
+    old_printtag(name, value, flush)
+    tagc, valuec, bold = tagc_, valuec_, not bold
+# This overrides the function used to print information.
+# This replacement will call the old function, but first
+# remove the boldness in the text for every other line
+# it prints.
+
+
+old_infofunc = infofunc
+def infofunc():
+    old_infofunc()
+    printtag('Configurations', pathname)
+# `infofunc` is the function that prints the text.
+# This extends `infofunc` to print which file it
+# has read to get its configurations, which is this
+# file. If you want to extend `infofunc` further,
+# you may want to take a look at Chapter 3
+# [Configuring] in the info manual, it lists a
+# few helper functions you can use.
+
